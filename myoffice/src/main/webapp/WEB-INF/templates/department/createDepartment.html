@@ -17,6 +17,40 @@ table tr td p{
 
 
 <script type="text/javascript">
+	function validate(){
+		let name = $("#name").val()
+		let type = $("#type").val()
+		let telephone = $("#telephone").val()
+		let date = $("#date").val()
+		if(name.trim().length == 0){
+			alert("部门名称不能为空")
+			$("#name").focus()
+			return false
+		}
+		if(type.trim().length == 0){
+			alert("部门类型名称不能为空")
+			$("#type").focus()
+			return false
+		}
+		if(telephone.trim().length == 0){
+			alert("电话号码不能为空")
+			$("#telephone").focus()
+			return false
+		}
+		if(!/^\d{3,4}-\d{8}/.test(telephone)){
+			alert("电话号码格式错误")
+			$("#telephone").val("")
+			$("#telephone").focus()
+			return false
+		}
+		if(date.trim().length == 0){
+			alert("日期不能为空")
+			$("#date").focus()
+			return false
+		}
+		return true
+	}
+	
 	$(function() {
 		$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
 		$("#date").datepicker({
@@ -42,28 +76,27 @@ table tr td p{
 		
 		$("form").submit(function(){
 			//数据验证
+			if(!validate())
+				return false
 			//ajax新增部门请求
 			$.ajax({
 				url:"insert",
                 type:"POST",
-                data:{
-                	"id":$("#id").val(),"name":$("#name").val(),"type":$("#type").val(),"telephone":$("#telephone").val(),"fax":$("#fax").val(),
-                	"description":$("#description").val(),"predepartment":$("#predepartment").val(),"date":$("#date").val()
-                },
+                data:$("form").serialize(),
                 success:function(r){
                 	if(r.successed){
+                		alert(r.message)
                 		window.location.href="managerDepartments"
                 	}else{
                 		alert(r.message)
                 	}
-                
                 }
 			})
 			//阻止表单正常提交
-			return false;
+			return false
 		})
 		
-	});
+	})
 </script>
 </head>
 
@@ -80,18 +113,18 @@ table tr td p{
 <table>
 	 <tr>
 		<td>编号</td>
-		<td><input id="id" type="text"></td>
+		<td><input id="id" name="id" type="text"></td>
 		<td><p>*（*为必填）</p></td>
 	</tr> 
 	<tr>
 		<td>名称</td>
-		<td><input id="name" type="text"></td>
+		<td><input id="name" name="name" type="text"></td>
 		<td><p>*</p></td>
 	</tr>
 	<tr>
 		<td>类型</td>
 		<td>
-			<select id="type">
+			<select id="type" name="type">
 				<option selected="selected"  value="公司">公司</option>
 				<option value="部门">部门</option>
 				<option value="车间">车间</option>
@@ -100,21 +133,21 @@ table tr td p{
 	</tr>
 	<tr>
 		<td>电话</td>
-		<td><input id="telephone" type="text"></td>
+		<td><input id="telephone" name="telephone" type="text"></td>
 		<td><p>*</p></td>
 	</tr>
 	<tr>
 		<td>传真</td>
-		<td><input id="fax" type="text"></td>
+		<td><input id="fax" name="fax" type="text"></td>
 	</tr>
 	<tr>
 		<td>描述</td>
-		<td><textarea id="description" name="textarea"></textarea></td>
+		<td><textarea id="description" name="description"></textarea></td>
 	</tr>
 	<tr>
 		<td>上级部门</td>
 		<td>
-			<select id="predepartment">
+			<select id="predepartment" name="predepartment">
 				<option selected="selected" value=""></option>
 				<option value="沈阳分公司">沈阳分公司</option>
 				<option value="华东区">华东区</option>
@@ -125,7 +158,7 @@ table tr td p{
 	</tr>
 	<tr>
 		<td>成立日期</td>
-		<td><input id="date" type="text"  readonly="readonly"></td>
+		<td><input id="date" name="date" type="text"  readonly="readonly"></td>
 		<td><p>*</p></td>
 	</tr>
 	<tr>

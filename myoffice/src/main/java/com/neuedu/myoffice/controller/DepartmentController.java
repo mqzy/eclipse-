@@ -51,7 +51,7 @@ public class DepartmentController {
 		if (flag) {
 			resultBean.setCode(200);
 			resultBean.setSuccessed(true);
-			resultBean.setMessage("新增部门成功");
+			resultBean.setMessage("新增部门成功,编号为："+department.getId());
 		}else {
 			resultBean.setCode(500);
 			resultBean.setSuccessed(false);

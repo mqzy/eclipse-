@@ -76,7 +76,8 @@
       #{telephone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{predepartment,jdbcType=VARCHAR}, #{date,jdbcType=DATE})
   </insert>
-  <insert id="insertSelective" parameterType="com.neuedu.myoffice.entity.Department" flushCache="true">
+  <insert id="insertSelective" parameterType="com.neuedu.myoffice.entity.Department"
+   useGeneratedKeys="true" keyColumn="id" keyProperty="id"  flushCache="true">
     insert into department
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
