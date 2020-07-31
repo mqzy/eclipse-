@@ -6,14 +6,56 @@
 <link href="../css/daohang.css" rel="stylesheet" type="text/css"/>
 <link href="../css/table.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="../js/jsrender.js"></script>
+<script language="javascript" src="../js/selectall.js"></script>
 <script language="javascript">
 	$(function(){
 		$("#newDept").click(function(){
 			window.location.href="createDepartment"
 		})
+		
+		$("#deleteDept").click(function(){
+			let ids = []
+			$("[name=chkselect]:checked").each(function(idx,item){
+				ids.push($(item).parent().next().text())
+			})
+			if(!window.confirm("宁真的确定要删除部门编号：\n"+ids+"的数据吗?")){
+				return false;
+			}
+			if(!window.confirm("删除部门数据后将无法恢复，请宁再次确认?")){
+				return false;
+			}
+			$.ajax({
+				url:"delete",
+				type:"POST",
+				data:{"ids":ids},
+				success:function(r){
+	            	if(r.successed){
+	            		window.location.href="managerDepartments"
+	            	}else{
+	            		alert(r.message)
+	            	}
+				}
+			})
+		})
+		
+		$.views.converters("dateformat",function(val){
+			date = new Date(val)
+			let y = date.getFullYear()
+			let m = date.getMonth()+1
+			let d = date.getDate()
+			return y+"-"+(m<10?"0"+m:m)+"-"+d
+		})
+		
+		$.ajax({
+			url:"managerDepartments/list",
+			type:"GET",
+			success:function(r){
+				$("#departments").html($("#departmentsTemplate").render(r.data))
+			}
+		})
 	})
 </script>
-<script language="javascript" src="../js/selectall.js"></script>
 </head>
 
 <body>
@@ -47,6 +89,22 @@
 <fieldset>
 <legend>部门信息</legend>
 <form name="form2">
+	<script id="departmentsTemplate" type="text/x-jsrender">
+	<tr align="center" >
+		<td><input name="chkselect" type="checkbox"></td>
+		<td>{{:id}}</td>
+		<td>{{:name}}</td>
+		<td>{{:type}}</td>
+		<td>{{:telephone}}</td>
+		<td>{{:fax}}</td>
+		<td>{{:description}}</td>
+		<td>{{:predepartment}}</td>
+		<td>{{dateformat:date}}</td>
+		<td>
+			<a href="updataDepartment/{{:id}}">修改</a>
+			<a href="employeesDepartment">查询该部门下的员工</a>		</td>
+	</tr>
+	</script>
 <table width="1022" cellspacing="0" class="tabs">
 	<tr>
 		<td colspan="10" align="left"><input type="button" value="新建部门" id="newDept"></td>
@@ -63,8 +121,10 @@
 		<th width="150">成立日期</th>
 		<th width="200">操作</th>
 	</tr>
+	<tbody id="departments"></tbody>
+	<!--  
 	<tr align="center" th:each="dept:${myoffice.data}">
-		<td><input type="checkbox"></td>
+		<td><input name="chkselect" type="checkbox"></td>
 		<td th:text="${dept.id}"></td>
 		<td th:text="${dept.name}"></td>
 		<td th:text="${dept.type}"></td>
@@ -74,9 +134,10 @@
 		<td th:text="${dept.predepartment}"></td>
 		<td th:text="${#dates.format(dept.date,'yyyy-MM-dd')}"></td>
 		<td>
-			<a href="updataDepartment">修改</a>
+			<a th:href="|updataDepartment/${dept.id}|">修改</a>
 			<a href="employeesDepartment">查询该部门下的员工</a>		</td>
 	</tr>
+	-->
 	<tr>
 	  <td colspan="6" align="left">
 	  <input type="button" value="全选" onClick="selectall();">|<input type="button" value="反选" onClick="opposite();">|<input type="button" value="全不选" onClick="selectf();">

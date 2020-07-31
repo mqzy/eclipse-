@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>岗位管理</title>
+<link href="../css/daohang.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("form").submit(function(){
+			$.ajax({
+				url:"update",
+				type:"POST",
+				data:$("form").serialize(),
+				success:function(r){
+	            	if(r.successed){
+	            		alert(r.message)
+	            		window.location.href="managerPost"
+	            	}else{
+	            		alert(r.message)
+	            	}
+				}
+			})
+			return false
+		})
+	})
+</script>
+</head>
+
+<body>
+<p class="daohang">当前位置：
+<a href="#">首页</a>
+<a href="managerPost">岗位管理</a>
+<font>修改岗位信息</font><br/>
+</p>
+<form>
+<table>
+	<tr>
+		<td>编号</td>
+		<td><input id="id" name="id" type="text" th:value="${station.data.id}" readonly="readonly"></td>
+	</tr>
+	<tr>
+		<td>名称</td>
+		<td><input id="name" name="name" type="text" th:value="${station.data.name}"></td>
+	</tr>
+	<tr>
+		<td>岗位类型</td>
+		<td>
+			<select id="type" name="type">
+				<option selected="selected" th:selected="${station.data.type} eq ''" value=""></option>
+	            <option th:selected="${station.data.type} eq '技术'" value="技术">技术</option>
+				<option th:selected="${station.data.type} eq '营销'" value="营销">营销</option>
+				<option th:selected="${station.data.type} eq '市场'" value="市场">市场</option>
+				<option th:selected="${station.data.type} eq '管理'" value="">管理</option>
+			</select>		</td>
+	</tr>
+	<tr>
+		<td>岗位编制</td>
+		<td><input id="number" name="number" type="text" th:value="${station.data.number}"></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+			<input type="submit" value="修改">
+			<input type="button" value="取消">
+		</td>
+	</tr>
+</table>
+</form>
+</body>
+</html>

@@ -63,6 +63,17 @@ public class DepartmentServiceImpl implements DepartmentService{
 
 	@Override
 	public boolean batchDelete(String[] ids) {
+		if (ids == null||ids.length == 0) {
+			return false;
+		}
+		for (String id : ids) {
+			if (Integer.parseInt(id) <= 0) {
+				return false;
+			}
+		}
+		int line = departmentMapper.batchDelete(ids);
+		if(line > 0)
+			return true;
 		return false;
 	}
 

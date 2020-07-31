@@ -1,9 +1,10 @@
-﻿<html>
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>部门管理</title>
-<link href="daohang.css" rel="stylesheet" type="text/css"/>
-<link href="table.css" rel="stylesheet" type="text/css"/>
+<link href="../css/daohang.css" rel="stylesheet" type="text/css"/>
+<link href="../css/table.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
@@ -26,8 +27,8 @@
 		<th width="100">人员来源</th>
 		<th width="200">最高学历</th>
 	</tr>
-	<tr align="center">
-		<td>100010</td>
+	<tr align="center" th:each="dept:${myoffice.data}">
+		<td th:text="${dept.id}">100010</td>
 		<td>张三</td>
 		<td>HR</td>
 		<td>2009-11-23</td>

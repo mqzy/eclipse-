@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录</title>
+<link rel="stylesheet" href="css/login.css">
+<script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+	function validate(name,password){
+		if(!(/^\w{5,15}$/.test(name))){
+			alert("登录名称必须是5~15位") ;
+			$("#name").focus() ;
+			return false ;
+		} else if(!(/^\w{5,15}$/.test(password))){
+			alert("登录密码必须是5~15位！") ;
+			$("#password").focus() ;
+			return false ;
+		} 
+		return true ;
+	}
+	$(function(){
+		$("form").submit(function(){
+			const name = $("#username").val()
+			const password =  $("#password").val()
+			if(!validate(name,password))
+				return false
+			$.ajax({
+				url:"checklogin",
+				type:"POST",
+				data:{"name":name,"password":password},
+				success:function(r){
+					if(r.successed){
+						window.location.href="index"
+					}else{
+						alert(r.message)
+					}
+				}
+			})
+			return false
+		})
+	})
+</script>
+
+</head>
+<body>
+<div  class="square">
+ <form>  
+      
+    <div class="block">  
+        <div id="login_form" >  
+  
+        <div id="form_account" style="margin-bottom:40px;margin-top:50px;">  
+        账户:&nbsp; <input name="username" id="username" type="text" placeholder="请输入用户名" />   
+        </div>  
+         		
+        
+        
+        <div id="form_password" >  
+        密码:&nbsp; <input name="password" id="password" type="password" placeholder="请输入密码" />  
+        </div>  
+  
+        <div id="login_click">  
+        <input type="submit" value="登录">  
+        </div>  
+      
+        </div>  
+        <span class="right" ><a href="register.jsp">没有账号？点击注册</a></span>
+    </div>    
+      
+      
+    </form>  
+</div>
+
+</body>
+<script>
+
+</script>
+</html>

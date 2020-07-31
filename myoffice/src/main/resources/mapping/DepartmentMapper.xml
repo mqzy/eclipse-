@@ -64,6 +64,13 @@
     order by id asc
   </select>
   -->
+    <delete id="batchDelete" parameterType="java.lang.String" flushCache="true">
+    delete from department
+    where id in
+    <foreach item="item" collection="array" open="(" separator="," close=")">
+    #{item}
+    </foreach>
+  </delete>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" flushCache="true">
     delete from department
     where id = #{id,jdbcType=VARCHAR}

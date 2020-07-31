@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>车辆管理</title>
+<link href="css/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="css/datepicker-style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/datepicker-zh-CN.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+		$("#date").datepicker({
+			//添加日期选择功能
+			numberOfMonths:1,//显示几个月
+			showButtonPanel:true,//是否显示按钮面板
+			dateFormat: 'yy-mm-dd',//日期格式
+			clearText:"清除",//清除日期的按钮名称
+			closeText:"关闭",//关闭选择框的按钮名称
+			yearSuffix: '年', //年的后缀
+			showMonthAfterYear:true,//是否把月放在年的后面
+			defaultDate:new Date(),//默认日期
+			minDate:'1900-1-1',//最小日期
+			maxDate:'2050-12-31',//最大日期
+			monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+			dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+			dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+			dayNamesMin: ['日','一','二','三','四','五','六'],
+			onSelect: function(selectedDate) {//选择日期后执行的操作
+				$("#date").val(selectedDate);
+			}
+		});
+		$("form").submit(function(){
+			$.ajax({
+				url:"update",
+				type:"POST",
+				data:$("form").serialize(),
+				success:function(r){
+	            	if(r.successed){
+	            		alert(r.message)
+	            		window.location.href="index"
+	            	}else{
+	            		alert(r.message)
+	            	}
+				}
+			})
+			return false
+		})
+	})
+</script>
+</head>
+
+<body>
+<div><iframe src="top" width="100%" height="100" frameborder="0" scrolling="no"></iframe></div>
+<p class="daohang">当前位置：
+<a href="index">车辆管理</a>
+<font>修改车辆信息</font><br/>
+</p>
+<form>
+<table>
+	<tr>
+		<td>编号</td>
+		<td><input id="id" name="id" type="text" th:value="${car.data.id}" readonly="readonly"></td>
+	</tr>
+	<tr>
+		<td>名称</td>
+		<td><input id="name" name="name" type="text" th:value="${car.data.name}"></td>
+	</tr>
+		<tr>
+		<td>型号</td>
+		<td><input id="style" name="style" type="text" th:value="${car.data.style}"></td>
+	</tr>
+	<tr>
+		<td>种类</td>
+		<td>
+			<select id="type" name="type">
+				<option selected="selected" th:selected="${car.data.type} eq ''" value=""></option>
+	            <option th:selected="${car.data.type} eq '宝马' " value="宝马">宝马</option>
+				<option th:selected="${car.data.type} eq '本田' " value="本田">本田</option>
+				<option th:selected="${car.data.type} eq '奥迪' " value="奥迪">奥迪</option>
+				<option th:selected="${car.data.type} eq '奔驰' " value="奔驰">奔驰</option>
+				<option th:selected="${car.data.type} eq '宾利' " value="宾利">宾利</option>
+				<option th:selected="${car.data.type} eq '长城' " value="长城">长城</option>
+			</select>		</td>
+	</tr>
+	<tr>
+		<td>类型</td>
+		<td>
+			<select id="model" name="model">
+				<option selected="selected" th:selected="${car.data.model} eq ''" value=""></option>
+	            <option th:selected="${car.data.model} eq '小型车' " value="小型车">小型车</option>
+				<option th:selected="${car.data.model} eq '中型车' " value="中型车">中型车</option>
+				<option th:selected="${car.data.model} eq '大型车' " value="大型车">大型车</option>
+				<option th:selected="${car.data.model} eq '小型SUV'" value="小型SUV">小型SUV</option>
+				<option th:selected="${car.data.model} eq '中型SUV'" value="中型SUV">中型SUV</option>
+				<option th:selected="${car.data.model} eq '大型SUV'" value="大型SUV">大型SUV</option>
+			</select>		</td>
+	</tr>
+	<tr>
+		<td>路程</td>
+		<td><input id="distance" name="distance" type="text" th:value="${car.data.distance}"></td>
+	</tr>
+	<tr>
+		<td>油耗</td>
+		<td><input id="oil" name="oil" type="text" th:value="${car.data.oil}"></td>
+	</tr>
+	<tr>
+		<td>日期</td>
+		<td><input type="text" id="date" name="date" th:value="${#dates.format(car.data.date,'yyyy-MM-dd')}" readonly="readonly"></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+			<input type="submit" value="修改">
+			<input type="button" value="取消">
+		</td>
+	</tr>
+</table>
+</form>
+</body>
+</html>

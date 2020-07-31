@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!--缓存配置 -->
+	<settings>
+		<!-- 开启二级缓存 -->
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="aggressiveLazyLoading" value="false" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+		<setting name="autoMappingBehavior" value="PARTIAL" />
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		<setting name="defaultStatementTimeout" value="25000" />
+		<setting name="safeRowBoundsEnabled" value="false" />
+		<setting name="mapUnderscoreToCamelCase" value="false" />
+		<setting name="localCacheScope" value="SESSION" />
+		<setting name="jdbcTypeForNull" value="OTHER" />
+		<setting name="lazyLoadTriggerMethods"
+			value="equals,clone,hashCode,toString" />
+	</settings>
+	<typeAliases>
+		<!-- 实体层的包名 -->
+		<package name="com.neuedu.carboom.entity" />
+		<!-- 数据访问层的包名 -->
+		<package name="com.neuedu.carboom.dao" />
+	</typeAliases>
+	<!--映射文件:无需描述,自动扫描,在applicationContext.xml中已经配置 -->
+</configuration>

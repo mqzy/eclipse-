@@ -50,7 +50,38 @@
 	<!-- 启动AspectJ自动代理 -->
 	<aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
 	
+	<!-- 日期转换器 -->
+	<mvc:annotation-driven conversion-service="conversionService"/>
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+		<ref bean="myDateConvert"/>
+		</property>
+	</bean>
 	<!-- 拦截器配置开始 -->
-	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean id="loginInterceptor" class="com.neuedu.myoffice.interceptor.LoginInterceptor">
+				<property name="excludeUrls">
+					<list>
+						<value>/css</value>
+						<value>/js</value>
+						<value>/images</value>
+						<value>/login</value>
+						<value>/checklogin</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 	<!-- 拦截器配置结束 -->
+	
+  <!-- 文件上传 -->
+  <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<!--设置默认编码-->
+	<property name="defaultEncoding" value="utf-8"></property>
+	<property name="maxInMemorySize" value="4096" />
+	<!-- 上传图片最大大小5M=5242440-->
+	<property name="maxUploadSize" value="104857600"></property>
+  </bean>
 </beans>

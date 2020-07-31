@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>file download</title>
+<script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("form").submit(function(){
+		$.ajax({
+			url:"download",
+            type:"GET",
+            data:$("form").serialize(),
+            success:function(r){
+            }
+		})
+		//阻止表单正常提交
+		return false
+	})
+})
+</script>
+</head>
+<body>
+<p>Spring Boot文件下载</p>
+<form >
+    <input type="text" name="filename"/>
+    <input type="submit" value="文件下载"/>
+</form>
+</body>
+</html>

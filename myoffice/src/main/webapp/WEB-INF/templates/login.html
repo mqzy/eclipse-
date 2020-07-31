@@ -1,0 +1,85 @@
+﻿<html>
+	<head>
+		<title>登陆界面</title>
+		<script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+		<script type="text/javascript">
+		
+		function validate(){
+		if(!(/^\w{5,15}$/.test($("#name").val()))){
+			alert("登录名称必须是5~15位") ;
+			$("#name").focus() ;
+			return false ;
+		} else if(!(/^\w{5,15}$/.test($("#password").val()))){
+			alert("登录密码必须是5~15位！") ;
+			$("#password").focus() ;
+			return false ;
+		} 
+		return true ;
+	}
+		
+		$(function(){
+			$("form").submit(function(){
+				if(!validate())
+					return false
+				$.ajax({
+					url:"checklogin",
+					type:"POST",
+					data:$("form").serialize(),
+					success:function(r){
+						if(r.successed){
+							window.location.href="index"
+						}else{
+							alert(r.message)
+						}
+					}
+				})
+				return false
+			})
+		})
+		</script>
+
+		<style type="text/css">
+			body {
+				background-image: url(images/bg.jpg);
+				background-repeat: no-repeat;
+			}
+		</style>
+	
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+	<body>
+
+		<form  name="form1">
+
+			<div
+				style="width: 521px; height: 315px; top: 96px; left: 47px;margin:0px auto;">
+				<table width="100%" border="0" cellspacing="0" 
+					align="center" cellpadding="4" background="">
+					<tr bgcolor="">
+						<th colspan="2" align="center" height="331">
+							<font size="9" color="#FFFFFF">欢迎登录人事管理系统</font>					
+						</th>
+					</tr>
+					<tr>
+						<td width="30%" align="right">
+							<font size="2" color="#FFFFFF"><b>登录名称：</b> </font>						</td>
+						<td>
+							<input id="name" name="name" type="text" size="30" maxlength="30" />						</td>
+					</tr>
+					<tr>
+						<td height="30" align="right">
+							<font size="2" color="#FFFFFF"><b>登录密码：</b> </font>						</td>
+						<td>
+							<input id="password" name="password" type="password" size="30" maxlength="30" />						</td>
+					</tr>
+
+					<tr>
+						<td colspan="2" height="30" align="center">
+							<input type="submit" value="登录">
+							&nbsp;
+							<input type="reset" value="重置" />						</td>
+				</table>
+		  </div>
+		</form>
+	</body>
+
+</html>
