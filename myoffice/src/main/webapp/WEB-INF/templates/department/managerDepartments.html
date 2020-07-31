@@ -5,14 +5,13 @@
 <title>部门管理</title>
 <link href="../css/daohang.css" rel="stylesheet" type="text/css"/>
 <link href="../css/table.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
 <script language="javascript">
-function newDept(){
-	window.navigate("createDepartment");
-}
-function deleteDept(){
-	window.confirm("是否删除");
-}
-
+	$(function(){
+		$("#newDept").click(function(){
+			window.location.href="createDepartment"
+		})
+	})
 </script>
 <script language="javascript" src="../js/selectall.js"></script>
 </head>
@@ -50,7 +49,7 @@ function deleteDept(){
 <form name="form2">
 <table width="1022" cellspacing="0" class="tabs">
 	<tr>
-		<td colspan="10" align="left"><input type="button" value="新建部门" onClick="newDept()"></td>
+		<td colspan="10" align="left"><input type="button" value="新建部门" id="newDept"></td>
 	</tr>
 	<tr align="center">
 	  <td width="20"><input type="checkbox" name="selectAll"></td>
@@ -83,7 +82,7 @@ function deleteDept(){
 	  <input type="button" value="全选" onClick="selectall();">|<input type="button" value="反选" onClick="opposite();">|<input type="button" value="全不选" onClick="selectf();">
 	  </td>
 	  <td colspan="4" align="right">
-	  <input type="button" value="删除选中的部门" onClick="deleteDept()">
+	  <input type="button" value="删除选中的部门" id="deleteDept">
 	  </td>
     </tr>
 </table>

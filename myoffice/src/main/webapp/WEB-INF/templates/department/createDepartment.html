@@ -1,0 +1,81 @@
+﻿<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>部门管理</title>
+<link href="../css/daohang.css" rel="stylesheet" type="text/css"/>
+<style>
+table tr td p{
+	color:#FF0000;
+}
+</style>
+</head>
+
+<body>
+<p class="daohang">当前位置：
+<a href="#">首页</a><
+<a href="managerDepartments.html">部门管理</a><
+<font>创建部门</font><br/>
+</p>
+
+<fieldset>
+<legend>部门信息</legend>
+<form action="managerDepartments.html">
+<table>
+	<tr>
+		<td>编号</td>
+		<td><input type="text"></td>
+		<td><p>*（*为必填）</p></td>
+	</tr>
+	<tr>
+		<td>名称</td>
+		<td><input type="text"></td>
+		<td><p>*</p></td>
+	</tr>
+	<tr>
+		<td>类型</td>
+		<td>
+			<select>
+				<option selected="selected"></option>
+				<option>公司</option>
+				<option>部门</option>
+			</select></td>
+		<td><p>*</p></td>
+	</tr>
+	<tr>
+		<td>电话</td>
+		<td><input type="text"></td>
+		<td><p>*</p></td>
+	</tr>
+	<tr>
+		<td>传真</td>
+		<td><input type="text"></td>
+	</tr>
+	<tr>
+		<td>描述</td>
+		<td><textarea name="textarea"></textarea></td>
+	</tr>
+	<tr>
+		<td>上级部门</td>
+		<td>
+			<select>
+				<option selected="selected"></option>
+				<option>沈阳分公司</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>成立日期</td>
+		<td><input type="text" onClick="fPopCalendar(event,this,this)" onFocus="this.select()" readonly="readonly"></td>
+		<td><p>*</p></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+			<input type="submit" value="提交">
+			<input type="reset" value="重置">
+		</td>
+	</tr>
+</table>
+</form>
+</fieldset>
+</body>
+</html>
