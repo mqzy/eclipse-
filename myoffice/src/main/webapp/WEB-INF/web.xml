@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
+	<!-- web application描述 -->
+	<display-name>myoffice</display-name>
+	<description>use ssm framework created</description>
+	
+	<!-- ContextLoader是一个工具类，用来初始化WebApplicationContext，其主要方法就是initWebApplicationContext 
+		ContextLoader是把WebApplicationContext（XmlWebApplicationContext是默认实现类）放在了ServletContext中，ServletContext也是一个“容器”，也是一个类似Map的结构， 
+		而WebApplicationContext在ServletContext中的KEY就是WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE， 
+		我们如果要使用WebApplicationContext则需要从ServletContext取出， Spring提供了一个WebApplicationContextUtils类，可以方便的取出WebApplicationContext，只要把ServletContext传入就可以了。 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	
+	<!-- post乱码过虑器 -->
+	<filter>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 加载spring容器 :通过XML配置的对象，使用注解的对象-->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+	
+	<!-- DispatcherServlet是前端控制器设计模式的实现，提供Spring Web MVC的集中访问点，而且负责职责的分派，而且与Spring 
+		IoC容器无缝集成，从而可以获得Spring的所有好处。 DispatcherServlet主要用作职责调度工作，本身主要用于控制流程，主要职责如下： 
+		1、文件上传解析，如果请求类型是multipart将通过MultipartResolver进行文件上传解析； 2、通过HandlerMapping，将请求映射到处理器（返回一个HandlerExecutionChain，它包括一个处理器、多个HandlerInterceptor拦截器）； 
+		3、通过HandlerAdapter支持多种类型的处理器(HandlerExecutionChain中的处理器)； 4、通过ViewResolver解析逻辑视图名到具体视图实现； 
+		5、本地化解析； 6、渲染具体的视图等； 7、如果执行过程中遇到异常将交给HandlerExceptionResolver来解析。 -->
+	<servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 无需拦截资源：搜索引擎 -->
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/robots.txt</url-pattern>
+		<url-pattern>/sitemap.xml</url-pattern>
+	</servlet-mapping>
+	
+	<!-- session有效时间：60分钟 -->
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+	
+	<!-- http状态异常显示页面配置，如404 -->
+	
+	<!-- druid配置 -->
+	
+</web-app>

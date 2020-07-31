@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd 
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd 
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<!-- 自动扫描指定包下的所有类，使其认为spring mvc的控制器 -->
+	<!-- 扫描指定当前包及其子包下的类，并注册被@Component，@Controller，@Service，@Repository等注解标记的组件 -->
+	<context:component-scan
+		base-package="com.neuedu.myoffice" />
+	<!-- 默认的注解映射的支持 -->
+	<context:annotation-config />
+	
+	<!-- 对静态资源文件的访问 方案二 （二选一）/images/**映射到ResourceHttpRequestHandler进行处理， location指定静态资源的位置.可以是web 
+		application根目录下、jar包里面，这样可以把静态资源压缩到jar包中。 cache-period 可以使得静态资源进行web cache -->
+	<mvc:resources location="/static/" mapping="/**"
+		cache-period="31536000" />
+	
+	<!-- thymeleaf模板引擎配置开始 -->
+	<bean id="templateResolver"
+		class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+		<property name="prefix" value="/WEB-INF/templates/" />
+		<property name="suffix" value=".html" />
+		<property name="templateMode" value="HTML5" />
+		<property name="cacheable" value="false" />
+	</bean>
+	<bean id="templateEngine"
+		class="org.thymeleaf.spring4.SpringTemplateEngine">
+		<property name="templateResolver" ref="templateResolver" />
+	</bean>
+	<bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+		<property name="templateEngine" ref="templateEngine" />
+		<property name="characterEncoding" value="UTF-8" />
+	</bean>
+	<!-- thymeleaf模板引擎配置结束 -->
+	
+	<!-- 告知Spring，启用注解驱动。然后Spring会自动为我们注册上面component-scan说到的几个Bean到工厂中，来处理我们的请求 -->
+	<mvc:annotation-driven />
+	
+	<!-- 启动AspectJ自动代理 -->
+	<aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
+	
+	<!-- 拦截器配置开始 -->
+	
+	<!-- 拦截器配置结束 -->
+</beans>
