@@ -2,7 +2,6 @@ package com.neuedu.myoffice.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,7 @@ public class DepartmentController {
 		return "department/createDepartment";
 	}
 	
-	@RequestMapping(value = "",method = RequestMethod.POST)
+	@RequestMapping(value = "department/insert",method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean<String> insert(String id, String name, String type, String telephone, String fax, String description, String predepartment, String date) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -56,8 +55,18 @@ public class DepartmentController {
 		}else {
 			resultBean.setCode(500);
 			resultBean.setSuccessed(false);
-			resultBean.setMessage("删除部门成功");
+			resultBean.setMessage("新增部门失败");
 		}
 		return resultBean;
+	}
+	
+	@RequestMapping(value = "department/employeesDepartment",method = RequestMethod.GET)
+	public String employeesDepartment() {
+		return "department/employeesDepartment";
+	}
+	
+	@RequestMapping(value = "department/updataDepartment",method = RequestMethod.GET)
+	public String updataDepartment() {
+		return "department/updataDepartment";
 	}
 }

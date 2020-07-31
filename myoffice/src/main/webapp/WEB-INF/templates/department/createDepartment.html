@@ -2,70 +2,130 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>部门管理</title>
+
 <link href="../css/daohang.css" rel="stylesheet" type="text/css"/>
 <style>
 table tr td p{
 	color:#FF0000;
 }
 </style>
+<link href="../css/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="../css/datepicker-style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="../js/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/datepicker-zh-CN.js"></script>
+
+
+<script type="text/javascript">
+	$(function() {
+		$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+		$("#date").datepicker({
+			//添加日期选择功能
+			numberOfMonths:1,//显示几个月
+			showButtonPanel:true,//是否显示按钮面板
+			dateFormat: 'yy-mm-dd',//日期格式
+			clearText:"清除",//清除日期的按钮名称
+			closeText:"关闭",//关闭选择框的按钮名称
+			yearSuffix: '年', //年的后缀
+			showMonthAfterYear:true,//是否把月放在年的后面
+			defaultDate:new Date(),//默认日期
+			minDate:'1900-1-1',//最小日期
+			maxDate:'2050-12-31',//最大日期
+			monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+			dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+			dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+			dayNamesMin: ['日','一','二','三','四','五','六'],
+			onSelect: function(selectedDate) {//选择日期后执行的操作
+				$("#date").val(selectedDate);
+			}
+		});
+		
+		$("form").submit(function(){
+			//数据验证
+			//ajax新增部门请求
+			$.ajax({
+				url:"insert",
+                type:"POST",
+                data:{
+                	"id":$("#id").val(),"name":$("#name").val(),"type":$("#type").val(),"telephone":$("#telephone").val(),"fax":$("#fax").val(),
+                	"description":$("#description").val(),"predepartment":$("#predepartment").val(),"date":$("#date").val()
+                },
+                success:function(r){
+                	if(r.successed){
+                		window.location.href="managerDepartments"
+                	}else{
+                		alert(r.message)
+                	}
+                
+                }
+			})
+			//阻止表单正常提交
+			return false;
+		})
+		
+	});
+</script>
 </head>
 
 <body>
 <p class="daohang">当前位置：
-<a href="#">首页</a><
-<a href="managerDepartments.html">部门管理</a><
+<a href="#">首页</a>
+<a href="managerDepartments">部门管理</a>
 <font>创建部门</font><br/>
 </p>
 
 <fieldset>
 <legend>部门信息</legend>
-<form action="managerDepartments.html">
+<form>
 <table>
-	<tr>
+	 <tr>
 		<td>编号</td>
-		<td><input type="text"></td>
+		<td><input id="id" type="text"></td>
 		<td><p>*（*为必填）</p></td>
-	</tr>
+	</tr> 
 	<tr>
 		<td>名称</td>
-		<td><input type="text"></td>
+		<td><input id="name" type="text"></td>
 		<td><p>*</p></td>
 	</tr>
 	<tr>
 		<td>类型</td>
 		<td>
-			<select>
-				<option selected="selected"></option>
-				<option>公司</option>
-				<option>部门</option>
+			<select id="type">
+				<option selected="selected"  value="公司">公司</option>
+				<option value="部门">部门</option>
+				<option value="车间">车间</option>
 			</select></td>
 		<td><p>*</p></td>
 	</tr>
 	<tr>
 		<td>电话</td>
-		<td><input type="text"></td>
+		<td><input id="telephone" type="text"></td>
 		<td><p>*</p></td>
 	</tr>
 	<tr>
 		<td>传真</td>
-		<td><input type="text"></td>
+		<td><input id="fax" type="text"></td>
 	</tr>
 	<tr>
 		<td>描述</td>
-		<td><textarea name="textarea"></textarea></td>
+		<td><textarea id="description" name="textarea"></textarea></td>
 	</tr>
 	<tr>
 		<td>上级部门</td>
 		<td>
-			<select>
-				<option selected="selected"></option>
-				<option>沈阳分公司</option>
+			<select id="predepartment">
+				<option selected="selected" value=""></option>
+				<option value="沈阳分公司">沈阳分公司</option>
+				<option value="华东区">华东区</option>
+				<option value="工程部">工程部</option>
+				<option value="财务部">财务部</option>
 			</select>
 		</td>
 	</tr>
 	<tr>
 		<td>成立日期</td>
-		<td><input type="text" onClick="fPopCalendar(event,this,this)" onFocus="this.select()" readonly="readonly"></td>
+		<td><input id="date" type="text"  readonly="readonly"></td>
 		<td><p>*</p></td>
 	</tr>
 	<tr>
