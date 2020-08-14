@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>新增部门</title>
+<link rel="stylesheet" href="../webjars/bootstrap/css/bootstrap.css">
+<script src="../webjars/jquery/jquery.js"></script>
+<script src="../webjars/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript">
+  $(function(){
+	  let today = new Date()
+	  let date = today.getFullYear()+
+	  "-"+(today.getMonth()+1<10?"0"+(today.getMonth()+1):today.getMonth())+
+	  "-"+(today.getDate()<10?"0"+today.getDate():today.getDate())
+	  $("#date").val(date)
+	  $("form").submit(function(){
+		  $.ajax({
+			  url:"insert",
+			  type:"POST",
+			  data:$("form").serialize(),
+			  success:function(r){
+				  if(r.successed){
+					  alert(r.message)
+					  window.location.href="list"
+				  }else
+					  alert(r.message)
+			  }
+		  })
+		  return false
+	  })  
+  })
+</script>
+</head>
+<body>
+	<div class="container-fluid">
+		<h1>新增部门</h1>
+		<form>
+			<table>
+				<tr>
+					<td>编号:</td>
+					<td><input id="id" name="id" type="text"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>名称:</td>
+					<td><input id="name" name="name" type="text"></td>
+					<td></td>
+					<td><span class="text-danger">*</span></td>
+				</tr>
+				<tr>
+					<td>类型:</td>
+					<td><select id="type" name="type">
+					<option></option>
+					<option>公司</option>
+					<option>部门</option>
+					</select></td>
+					<td></td>
+					<td><span class="text-danger">*</span></td>
+				</tr>
+				<tr>
+					<td>电话:</td>
+					<td><input id="telephone" name="telephone" type="text"></td>
+					<td></td>
+					<td><span class="text-danger">*</span></td>
+				</tr>
+				<tr>
+					<td>传真:</td>
+					<td><input id="fax" name="fax" type="text"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>描述:</td>
+					<td><input id="description" name="description" type="textarea"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>上级部门:</td>
+					<td><select id="predepartment" name="predepartment">
+						<option></option>
+						<option>华东区</option>
+						<option>财务部</option>
+					</select></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>创建日期:</td>
+					<td><input id="date" name="date" type="date"></td>
+					<td></td>
+					<td><span class="text-danger">*</span></td>
+				</tr>
+				<tr>
+				<td colspan="3" class="text-center">
+				<input type="submit" value="提交">
+				<input type="reset" value="重置"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

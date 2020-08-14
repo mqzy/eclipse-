@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>显示所有部门信息</title>
+<link rel="stylesheet" href="../webjars/bootstrap/css/bootstrap.css">
+<script src="../webjars/jquery/jquery.js"></script>
+<script src="../webjars/bootstrap/js/bootstrap.js"></script>
+
+<script type="text/javascript">
+  $(function(){
+	  //查询
+	  //增加
+	  $("#newDept").click(function(){
+		  window.location.href="department_insert"
+	  })
+	  //删除
+	  $("[name=deleteDept]").click(function(){
+		 let id = $(this).attr("data-id")
+		  if(!confirm("您真的确认要删除部门编号:"+id+"的数据吗？"))
+			  return
+		  if(!confirm("请再次确认！"))
+			  return
+		  $.ajax({
+			  url:"delete/"+id,
+			  type:"DELETE",
+			  success:function(r){
+				  if(r.successed){
+					  alert(r.message)
+					  window.location.href="list"
+				  }else
+					  alert(r.message)
+			  }
+		  })
+	  })
+	  //批量删除
+	  $("#batchdeleteDept").click(function(){
+		 let ids = []
+		 $("[name=chkselect]:checked").each(function(idx,item){
+			ids += ($(item).parent().next().text())+","
+		 })
+		 ids = ids.substr(0,ids.length-1)
+		 if(!confirm("您真的确认要删除部门编号:"+ids+"的数据吗？"))
+			 return
+		 if(!confirm("请再次确认！"))
+			 return
+		 $.ajax({
+			 url:"batchdelete/"+ids,
+			 type:"DELETE",
+			 success:function(r){
+				 if(r.successed){
+					 alert(r.message)
+					 window.location.href="list"
+				 }else
+					 alert(r.message)
+			 }
+		 })
+	 })
+	  
+  })
+</script>
+
+</head>
+<body>
+  <form action="find" method="get" class="container-fluid text-center">
+  <label>编号：<input name="id" type="text"></label>
+  <label>名称：<input name="name" type="text"></label>
+  <label>类型：<select name="type">
+  	<option value=""></option>
+  	<option value="公司">公司</option>
+  	<option value="部门">部门</option>
+  </select></label>
+  <input type="submit" value="查询">
+  <input type="reset" value="重置">
+  </form>
+  <button id="newDept" class="btn-primay">添加</button>
+  <table class="table table-bordered">
+    <tr>
+	  <td width="20"><input type="checkbox" disabled="true"></td>
+      <th>编号</th>
+      <th>名称</th>
+      <th>类型</th>
+      <th>电话</th>
+      <th>传真</th>
+      <th>描述</th>
+      <th>上级</th>
+      <th>创建日期</th>
+      <th>操作</th>
+    </tr>
+    <tr th:each="dept:${office.data}">
+	  <td><input name="chkselect" type="checkbox"></td>
+      <td th:text="${dept.id}"></td>
+      <td th:text="${dept.name}"></td>
+      <td th:text="${dept.type}"></td>
+      <td th:text="${dept.telephone}"></td>
+      <td th:text="${dept.fax}"></td>
+      <td th:text="${dept.description}"></td>
+      <td th:text="${dept.predepartment}"></td>
+      <td th:text="${#dates.format(dept.date,'yyyy-MM-dd')}"></td>
+      <td colspan="2" align="center">
+      <a th:href="|${dept.id}|" class="btn btn-info">修改</a>
+  	  <button name="deleteDept" class="btn btn-danger" th:attr="data-id=${dept.id}">删除</button>
+      </td>     
+    </tr>
+    <tr>
+    	<td colspan="6" align="left"></td>
+    	<td colspan="4" align="right">
+	  		<input type="button" value="删除选中的部门" id="batchdeleteDept">
+	  	</td>
+    </tr>
+  </table>
+</body>
+</html>

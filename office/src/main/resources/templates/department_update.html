@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>新增部门</title>
+<link rel="stylesheet" href="../webjars/bootstrap/css/bootstrap.css">
+<script src="../webjars/jquery/jquery.js"></script>
+<script src="../webjars/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript">
+  $(function(){
+	  $("form").submit(function(){
+		  $.ajax({
+			  url:"update/"+$("#id").val(),
+			  type:"PUT",
+			  data:$("form").serialize(),
+			  success:function(r){
+				  if(r.successed){
+					  alert(r.message)
+					  window.location.href="list"
+				  }else
+					  alert(r.message)
+			  }
+		  })
+		  return false
+	  }) 
+  })
+</script>
+</head>
+<body>
+	<div class="container-fluid">
+		<h1>修改部门</h1>
+		<form>
+			<table>
+				<tr class="d-none">
+					<td>编号:</td>
+					<td><input id="id" name="id" type="hidden" th:value="${office.data.id}"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>名称:</td>
+					<td><input id="name" name="name" type="text" th:value="${office.data.name}"></td>
+					<td></td>
+					<td><span class="text-danger">*</span></td>
+				</tr>
+				<tr>
+					<td>类型:</td>
+					<td><select id="type" name="type">
+					<option th:selected="${office.data.type}eq ''" value=""></option>
+					<option th:selected="${office.data.type}eq '公司'" value="公司">公司</option>
+					<option th:selected="${office.data.type}eq '部门'" value="部门">部门</option>
+					</select></td>
+					<td></td>
+					<td><span class="text-danger">*</span></td>
+				</tr>
+				<tr>
+					<td>电话:</td>
+					<td><input id="telephone" name="telephone" type="text" th:value="${office.data.telephone}"></td>
+					<td></td>
+					<td><span class="text-danger">*</span></td>
+				</tr>
+				<tr>
+					<td>传真:</td>
+					<td><input id="fax" name="fax" type="text" th:value="${office.data.fax}"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>描述:</td>
+					<td><input id="description" name="description" type="textarea" th:value="${office.data.description}"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>上级部门:</td>
+					<td><select id="predepartment" name="predepartment">
+						<option th:selected="${office.data.predepartment}eq ''" value=""></option>
+						<option th:selected="${office.data.predepartment}eq '华东区'" value="华东区">华东区</option>
+						<option th:selected="${office.data.predepartment}eq '财务部'" value="财务部">财务部</option>
+					</select></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>创建日期:</td>
+					<td><input id="date" name="date" type="date" th:value="${#dates.format(office.data.date,'yyyy-MM-dd')}"></td>
+					<td></td>
+					<td><span class="text-danger">*</span></td>
+				</tr>
+				<tr>
+				<td colspan="3" class="text-center">
+				<input type="submit" value="提交">
+				<input type="reset" value="重置"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>
