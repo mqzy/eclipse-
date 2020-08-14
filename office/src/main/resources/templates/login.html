@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>首页</title>
+<link rel="stylesheet" href="webjars/bootstrap/css/bootstrap.css">
+<script src="webjars/jquery/jquery.js"></script>
+<script src="webjars/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("form").submit(function(){
+			$.ajax({
+				url:'checklogin',
+				type:"POST",
+				data:$("form").serialize(),
+				success:function(r){
+					  if(r.successed){
+						  alert(r.message)
+						  window.location.href="/index"
+					  }else
+						  alert(r.message)
+				}
+			})
+			return false
+		})
+	})
+</script>
+</head>
+<body>
+	<div class="container-fluid text-center">
+		<h1>登录界面</h1>
+		<form>
+			<table class="table table-bordered">
+				<tr>
+					<td>登录名称：</td>
+					<td><input id="name" name="name" type="text"></td>
+					<td><span class="text-danger">*</span></td>
+				</tr>
+				<tr>
+					<td>登录密码：</td>
+					<td><input id="password" name="password" type="password"></td>
+					<td><span class="text-danger">*</span></td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<input type="submit" value="登录">
+						<input type="reset" value="重置">
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>
