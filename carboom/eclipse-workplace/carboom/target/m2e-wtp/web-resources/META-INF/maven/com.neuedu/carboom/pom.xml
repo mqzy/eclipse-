@@ -19,7 +19,7 @@
 	<properties>
 		<java-version>1.8</java-version>
 		<org.hamcrest.version>1.3</org.hamcrest.version>
-		<org.junit.version>4.12</org.junit.version>
+		<org.junit.version>4.13.1</org.junit.version>
 		<org.springframework.version>4.2.3.RELEASE</org.springframework.version>
 		<org.mybatis.version>3.3.0</org.mybatis.version>
 		<thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
